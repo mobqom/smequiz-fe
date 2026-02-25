@@ -1,9 +1,11 @@
-import { EnterName } from '@/components/EnterName'
+'use client'
+import { Test } from '@/components/Test'
 
 export default function Home() {
 	return (
 		<main>
-			<EnterName />
+			<Test />
+			{/* <EnterName /> */}
 		</main>
 	)
 }
