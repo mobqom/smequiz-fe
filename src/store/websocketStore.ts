@@ -40,6 +40,7 @@ const useWebSocketStore = create<WebSocketState>((set, get) => ({
 				) {
 					message = JSON.parse(event.data)
 				}
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (e) {
 				console.log('Store: сообщение не JSON, оставляем строкой')
 			}
