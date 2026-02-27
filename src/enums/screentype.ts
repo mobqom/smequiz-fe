@@ -1,0 +1,5 @@
+// Enum для экранов
+export enum ScreenType {
+	SET_NAME_SCREEN = 'SET_NAME_SCREEN',
+	GAME_LOBBY_WAIT_PLAYERS_SCREEN = 'GAME_LOBBY_WAIT_PLAYERS_SCREEN',
+}

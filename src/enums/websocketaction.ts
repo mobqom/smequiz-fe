@@ -1,0 +1,11 @@
+// Enum для действий WebSocket
+export enum WebSocketAction {
+	SET_SCREEN = 'SET_SCREEN',
+	PLAYER_ID = 'PLAYER_ID',
+	JOIN_ROOM = 'JOIN_ROOM',
+	GAME_START = 'GAME_START',
+	CREATE_ROOM = 'CREATE_ROOM',
+	SET_NAME = 'SET_NAME',
+	CURRENT_ROOM = 'CURRENT_ROOM',
+	PLAYERS_LIST = 'PLAYERS_LIST',
+}

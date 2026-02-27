@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // components/Websocket/websocketStore.ts
-import { WebSocketAction } from '@/app/page' // Импортируем enum
+import { WebSocketAction } from '@/enums/websocketaction'
 import { create } from 'zustand'
 
 // Тип для сообщений

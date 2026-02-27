@@ -1,6 +1,7 @@
 'use client'
+import { WebSocketAction } from '@/enums/websocketaction'
 import { FC, useState } from 'react'
-import useWebSocketStore from '../Websocket/websocketStore'
+import useWebSocketStore from '../../store/websocketStore'
 import { Mouth } from './Mouth'
 import s from './Test.module.scss'
 
@@ -14,9 +15,9 @@ const Test: FC = () => {
 		if (nickname.trim() && coderoom.trim() && isConnected) {
 			console.log(`📤 Отправка имени: ${nickname.trim()}`)
 			console.log(`📤 Вход в комнату: ${coderoom.trim()}`)
-			sendMessage('SET_NAME', nickname.trim())
+			sendMessage(WebSocketAction.SET_NAME, nickname.trim())
 			setNickname('')
-			sendMessage('JOIN_ROOM', 'room_' + coderoom.trim())
+			sendMessage(WebSocketAction.JOIN_ROOM, 'room_' + coderoom.trim())
 			setCoderoom('')
 		}
 	}
