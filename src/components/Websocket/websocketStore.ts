@@ -1,15 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// store/websocketStore.ts
+// components/Websocket/websocketStore.ts
+import { WebSocketAction } from '@/app/page' // Импортируем enum
 import { create } from 'zustand'
+
+// Тип для сообщений
+type MessageType = string | any
 
 interface WebSocketState {
 	socket: WebSocket | null
 	isConnected: boolean
-	messages: string[]
+	messages: MessageType[]
 	connect: (url: string) => void
 	disconnect: () => void
-	sendMessage: (action: string, payload: any) => void
-	addMessage: (message: string) => void
+	sendMessage: (action: WebSocketAction, payload?: any) => void // Используем enum
 }
 
 const useWebSocketStore = create<WebSocketState>((set, get) => ({
@@ -18,28 +20,44 @@ const useWebSocketStore = create<WebSocketState>((set, get) => ({
 	messages: [],
 
 	connect: (url: string) => {
+		console.log('🔌 Store: попытка подключения к', url)
 		const socket = new WebSocket(url)
 
 		socket.onopen = () => {
-			console.log('✅ WebSocket connected')
-			set({ isConnected: true, socket })
+			console.log('✅ Store: WebSocket подключен')
+			set({ isConnected: true })
 		}
 
 		socket.onmessage = event => {
-			console.log('📩 Message received:', event.data)
-			get().addMessage(`Received: ${event.data}`)
+			console.log('📨 Store: получено сообщение', event.data)
+			let message: MessageType = event.data
+			try {
+				if (
+					typeof event.data === 'string' &&
+					(event.data.trim().startsWith('{') ||
+						event.data.trim().startsWith('['))
+				) {
+					message = JSON.parse(event.data)
+				}
+			} catch (e) {
+				console.log('Store: сообщение не JSON, оставляем строкой')
+			}
+
+			set(state => ({
+				messages: [...state.messages, message],
+			}))
 		}
 
 		socket.onerror = error => {
-			console.error('❌ WebSocket error:', error)
-			get().addMessage(`Error: ${error}`)
+			console.error('❌ Store: ошибка WebSocket', error)
 		}
 
 		socket.onclose = () => {
-			console.log('🔌 WebSocket disconnected')
+			console.log('🔌 Store: WebSocket отключен')
 			set({ isConnected: false, socket: null })
-			get().addMessage('Disconnected from server')
 		}
+
+		set({ socket })
 	},
 
 	disconnect: () => {
@@ -49,25 +67,15 @@ const useWebSocketStore = create<WebSocketState>((set, get) => ({
 		}
 	},
 
-	sendMessage: (action: string, payload: any) => {
+	sendMessage: (action: WebSocketAction, payload?: any) => {
 		const { socket, isConnected } = get()
 		if (socket && isConnected) {
 			const message = JSON.stringify({ action, payload })
+			console.log('📤 Store: отправка сообщения', message)
 			socket.send(message)
-			console.log('📤 Message sent:', message)
-			get().addMessage(`Sent: ${message}`)
 		} else {
-			console.warn('⚠️ Cannot send message - WebSocket not connected')
+			console.warn('⚠️ Store: невозможно отправить, WebSocket не подключен')
 		}
-	},
-
-	addMessage: (message: string) => {
-		set(state => ({
-			messages: [
-				...state.messages,
-				`${new Date().toLocaleTimeString()}: ${message}`,
-			],
-		}))
 	},
 }))
 
