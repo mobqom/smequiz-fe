@@ -1,0 +1,184 @@
+.GameLobby {
+	margin-top: 18px;
+	width: 100%;
+	max-width: 700px; // Увеличиваем максимальную ширину для 10 игроков
+	height: 100vh;
+	// padding: 2rem;
+	border-radius: 20px;
+	color: #000;
+
+	.playersList {
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 12px;
+		padding: 1.5rem;
+		margin-bottom: 2rem;
+		margin: 0 auto;
+		// overflow-y: auto; // Добавляем прокрутку если игроков очень много
+	}
+
+	.players {
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+		align-items: center;
+	}
+
+	.playerItem {
+		background-color: #faf9f9;
+		width: 327px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		border-radius: 12px;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
+		position: relative;
+	}
+
+	.playerAvatar {
+		position: relative;
+		width: 52px;
+		height: 52px;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.avatarWrapper {
+		overflow: hidden;
+		background: rgba(255, 255, 255, 0.1);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			transform: translate(-4px);
+		}
+	}
+
+	.emptyAvatar {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.2);
+		border: 2px dashed rgba(255, 255, 255, 0.3);
+	}
+
+	.playerInfo {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		min-width: 0; // Для корректного обрезания длинных имен
+	}
+
+	.playerName {
+		font-weight: 600;
+		font-size: 1.1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.youBadge {
+		font-size: 0.8rem;
+		background: rgba(255, 255, 255, 0.3);
+		padding: 2px 6px;
+		border-radius: 10px;
+		flex-shrink: 0;
+	}
+
+	.emptyName {
+		opacity: 0.6;
+		font-style: italic;
+	}
+
+	.crownIcon {
+		font-size: 1.5rem;
+		margin-left: 0.5rem;
+		animation: glow 2s ease-in-out infinite;
+		flex-shrink: 0;
+	}
+
+	.actions {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.button {
+		width: 100%;
+		padding: 1rem;
+		border: none;
+		border-radius: 12px;
+		font-size: 1.2rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s;
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+	}
+
+	.startButton {
+		background: linear-gradient(135deg, #00b09b, #96c93d);
+		color: white;
+		box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
+
+		&:hover:not(:disabled) {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(0, 176, 155, 0.6);
+		}
+
+		&:active:not(:disabled) {
+			transform: translateY(0);
+		}
+	}
+
+	.waitingButton {
+		background: linear-gradient(135deg, #6b7280, #4b5563);
+		color: #e5e7eb;
+		box-shadow: 0 4px 15px rgba(75, 85, 99, 0.4);
+	}
+
+	.waitingMessage {
+		text-align: center;
+		opacity: 0.8;
+		font-size: 0.95rem;
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	@keyframes glow {
+		0%,
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.8;
+			transform: scale(1.1);
+		}
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.8;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+}

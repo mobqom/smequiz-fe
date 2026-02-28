@@ -5,7 +5,7 @@ import useWebSocketStore from '../../store/websocketStore'
 import s from './JoinRoom.module.scss'
 import { Mouth } from './Mouth'
 
-const Test: FC = () => {
+const JoinRoom: FC = () => {
 	const [nickname, setNickname] = useState('')
 	const [coderoom, setCoderoom] = useState('')
 	const { sendMessage, isConnected } = useWebSocketStore()
@@ -61,4 +61,4 @@ const Test: FC = () => {
 	)
 }
 
-export default Test
+export default JoinRoom

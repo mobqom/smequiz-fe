@@ -6,6 +6,7 @@ import { WebSocketAction } from '@/enums/websocketaction'
 import useWebSocketStore from '@/store/websocketStore'
 import { WebSocketMessage } from '@/types/websocketmessage'
 import { FC, useEffect, useState } from 'react'
+import { GameLobby } from '../GameLobby'
 import { JoinRoom } from '../JoinRoom'
 import s from './Game.module.scss'
 
@@ -24,6 +25,8 @@ const LoadingScreen: FC<{ currentScreen: ScreenType | string }> = ({
 )
 
 const Game: FC = () => {
+	const [players, setPlayers] = useState([])
+	const [currentPlayerId, setCurrentPlayerId] = useState('')
 	const [currentScreen, setCurrentScreen] = useState<ScreenType | string>('')
 	const { connect, isConnected, messages } = useWebSocketStore()
 
@@ -70,6 +73,12 @@ const Game: FC = () => {
 						console.log('👤 Игрок присоединился:', lastMessage.payload)
 						break
 
+					// В обработчике сообщений WebSocket добавьте:
+					case WebSocketAction.PLAYERS_LIST:
+						console.log('👥 Получен список игроков:', lastMessage.payload)
+						setPlayers(lastMessage.payload)
+						break
+
 					default:
 						console.log('📨 Получено другое действие:', lastMessage.action)
 				}
@@ -88,8 +97,12 @@ const Game: FC = () => {
 	const renderScreen = () => {
 		switch (currentScreen) {
 			case ScreenType.SET_NAME_SCREEN:
-				console.log('🎨 Рендерим Test компонент')
+				console.log('🎨 Рендерим JoinRoom компонент')
 				return <JoinRoom />
+
+			case ScreenType.GAME_LOBBY_WAIT_PLAYERS_SCREEN:
+				console.log('🎨 Рендерим GameLobby компонент')
+				return <GameLobby players={players} currentPlayerId={currentPlayerId} />
 
 			default:
 				console.log('🔄 Рендерим экран по умолчанию (загрузка)')
