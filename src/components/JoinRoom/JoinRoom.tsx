@@ -2,8 +2,8 @@
 import { WebSocketAction } from '@/enums/websocketaction'
 import { FC, useState } from 'react'
 import useWebSocketStore from '../../store/websocketStore'
+import s from './JoinRoom.module.scss'
 import { Mouth } from './Mouth'
-import s from './Test.module.scss'
 
 const Test: FC = () => {
 	const [nickname, setNickname] = useState('')

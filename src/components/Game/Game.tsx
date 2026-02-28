@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
-import Test from '@/components/Test/Test'
 import { ScreenType } from '@/enums/screentype'
 import { WebSocketAction } from '@/enums/websocketaction'
 import useWebSocketStore from '@/store/websocketStore'
 import { WebSocketMessage } from '@/types/websocketmessage'
 import { FC, useEffect, useState } from 'react'
+import { JoinRoom } from '../JoinRoom'
 import s from './Game.module.scss'
 
 const LoadingScreen: FC<{ currentScreen: ScreenType | string }> = ({
@@ -89,7 +89,7 @@ const Game: FC = () => {
 		switch (currentScreen) {
 			case ScreenType.SET_NAME_SCREEN:
 				console.log('🎨 Рендерим Test компонент')
-				return <Test />
+				return <JoinRoom />
 
 			default:
 				console.log('🔄 Рендерим экран по умолчанию (загрузка)')
