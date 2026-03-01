@@ -1,0 +1,255 @@
+.Question {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	// background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(to bottom, #16c35e, #8cd93f);
+}
+
+.waiting {
+	text-align: center;
+	padding: 60px 20px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 20px;
+	color: white;
+
+	p {
+		font-size: 1.5rem;
+		margin: 0;
+		animation: pulse 1.5s ease-in-out infinite;
+	}
+}
+
+.questionContainer {
+	// overflow: hidden;
+	// position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.timer {
+	margin-top: 23px;
+	margin-bottom: 16px;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	z-index: 1;
+	color: #fff;
+}
+
+.timerValue {
+	font-size: 1.8rem;
+	font-weight: bold;
+	line-height: 1;
+}
+
+.questionHeader {
+	padding: 30px 30px 20px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+}
+
+.questionTitle {
+	font-size: 2rem;
+	margin: 0 0 10px 0;
+	font-weight: 600;
+}
+
+.questionBlock {
+	display: flex;
+	flex-direction: column;
+	width: 297px;
+	margin: 0 auto;
+	align-items: center;
+	margin-bottom: 26px;
+
+	.vote {
+		margin-bottom: -45px;
+		bottom: 0px;
+		z-index: 2;
+		padding: 8.5px 12px;
+		background-color: #fff;
+		border-radius: 12px;
+		font-size: 18px;
+		font-weight: 400;
+		width: 100px;
+		height: 38px;
+		box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		margin-right: -220px;
+		line-height: 1.2;
+		transform: rotate(6deg);
+	}
+
+	.questionContent {
+		max-width: 297px;
+		min-height: 129px;
+		margin: 0 auto;
+		background-color: #fff;
+		border-radius: 12px;
+		justify-content: end;
+		padding: 12px;
+		padding-top: 39px;
+	}
+
+	.questionAtribute {
+		margin: 0 auto;
+		margin-bottom: -33px;
+		bottom: 0px;
+		z-index: 2;
+	}
+
+	.questionText {
+		display: flex;
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.6;
+		color: #3c3c3c;
+		background-color: #eaeaea;
+		min-width: 273px;
+		min-height: 78px;
+		margin: 0;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		border-radius: 12px;
+		padding: 16px;
+	}
+}
+
+.cloudBackground {
+	position: absolute;
+	width: 297px;
+	height: 130px;
+	z-index: 1;
+
+	pointer-events: none; // Чтобы клики проходили сквозь фон к textarea
+}
+
+.svg {
+	width: 297px;
+	height: 100%;
+
+	// Если нужно изменить цвет облака
+	path,
+	circle,
+	ellipse {
+		fill: #f0f4fa; // Цвет облака
+		stroke: #cbd5e0; // Обводка
+	}
+}
+
+.answerForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	flex: 1;
+	margin: 0 auto;
+	max-width: 297px;
+	height: 100%;
+}
+
+.inputGroup {
+	position: relative;
+	max-width: 297px;
+}
+
+.answerInput {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-height: 130px;
+	min-height: 150px;
+	background: transparent;
+	border: none;
+	font-size: 18px;
+	font-weight: 700;
+	padding: 15px 40px;
+	line-height: 1.5;
+	color: #2d3748;
+	resize: vertical;
+	text-align: center;
+
+	&:focus {
+		outline: none;
+	}
+
+	&::placeholder {
+		color: #a0aec0;
+		opacity: 0.8;
+	}
+}
+
+.charCount {
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
+	font-size: 0.8rem;
+	color: #a0aec0;
+	background: rgba(255, 255, 255, 0.9);
+	padding: 2px 8px;
+	border-radius: 12px;
+}
+
+.submitButton {
+	width: 100%;
+	padding: 16px;
+	font-size: 18px;
+	font-weight: 600;
+	color: white;
+	margin-bottom: 96px;
+	background-color: #3c3c3c;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+	.Question {
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.questionHeader {
+		padding: 20px;
+	}
+
+	.questionTitle {
+		font-size: 1.5rem;
+	}
+
+	.questionText {
+		font-size: 1.1rem;
+	}
+
+	.timerValue {
+		font-size: 40px;
+		font-weight: 600;
+	}
+}

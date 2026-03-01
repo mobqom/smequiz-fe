@@ -1,4 +1,6 @@
 'use client'
+import { WebSocketAction } from '@/enums/websocketaction'
+import useWebSocketStore from '@/store/websocketStore'
 import { FC, useEffect, useState } from 'react'
 import s from './GameLobby.module.scss'
 import { Player1 } from './Player1'
@@ -20,16 +22,15 @@ interface Player {
 interface GameLobbyProps {
 	players?: Player[]
 	currentPlayerId?: string
-	onStartGame?: () => void
 	maxPlayers?: number
 }
 
 const GameLobby: FC<GameLobbyProps> = ({
 	players = [],
 	currentPlayerId,
-	onStartGame,
 	maxPlayers = 10,
 }) => {
+	const { sendMessage, isConnected } = useWebSocketStore()
 	const [localPlayers, setLocalPlayers] = useState<Player[]>(players)
 
 	// Обновляем игроков при изменении пропсов
@@ -46,13 +47,13 @@ const GameLobby: FC<GameLobbyProps> = ({
 
 	// Определяем статус кнопки
 	const getButtonState = () => {
-		if (!isFirstPlayer) {
-			return {
-				disabled: true,
-				text: 'Ждем старта...',
-				className: s.waitingButton,
-			}
-		}
+		// if (!isFirstPlayer) {
+		// 	return {
+		// 		disabled: true,
+		// 		text: 'Ждем старта...',
+		// 		className: s.waitingButton,
+		// 	}
+		// }
 
 		if (!hasEnoughPlayers) {
 			return {
@@ -95,8 +96,9 @@ const GameLobby: FC<GameLobbyProps> = ({
 	const buttonState = getButtonState()
 
 	const handleStartGame = () => {
-		if (!buttonState.disabled && onStartGame) {
-			onStartGame()
+		if (!buttonState.disabled) {
+			console.log(`📤 Старт игры }`)
+			sendMessage(WebSocketAction.START_GAME)
 		}
 	}
 
@@ -114,15 +116,8 @@ const GameLobby: FC<GameLobbyProps> = ({
 							</div>
 
 							<div className={s.playerInfo}>
-								<span className={s.playerName}>
-									{player.name}
-									{player.id === currentPlayerId && (
-										<span className={s.youBadge}>(Вы)</span>
-									)}
-								</span>
+								<span className={s.playerName}>{player.name}</span>
 							</div>
-
-							{index === 0 && <div className={s.crownIcon}>👑</div>}
 						</div>
 					))}
 
@@ -137,7 +132,7 @@ const GameLobby: FC<GameLobbyProps> = ({
 									<div className={s.emptyAvatar}></div>
 								</div>
 								<div className={s.playerInfo}>
-									<span className={s.emptyName}>Ожидание...</span>
+									<span className={s.emptyName}>Свободный слот...</span>
 								</div>
 							</div>
 						)

@@ -8,7 +8,13 @@ import { WebSocketMessage } from '@/types/websocketmessage'
 import { FC, useEffect, useState } from 'react'
 import { GameLobby } from '../GameLobby'
 import { JoinRoom } from '../JoinRoom'
+import { Question } from '../Question'
 import s from './Game.module.scss'
+
+interface QuestionPayload {
+	stageId: string
+	question: string
+}
 
 const LoadingScreen: FC<{ currentScreen: ScreenType | string }> = ({
 	currentScreen,
@@ -26,7 +32,11 @@ const LoadingScreen: FC<{ currentScreen: ScreenType | string }> = ({
 
 const Game: FC = () => {
 	const [players, setPlayers] = useState([])
-	const [currentPlayerId, setCurrentPlayerId] = useState('')
+	const [currentPlayerId] = useState('')
+	const [questionData, setQuestionData] = useState<{
+		stageId: string
+		question: string
+	} | null>(null)
 	const [currentScreen, setCurrentScreen] = useState<ScreenType | string>('')
 	const { connect, isConnected, messages } = useWebSocketStore()
 
@@ -63,7 +73,7 @@ const Game: FC = () => {
 						}
 						break
 
-					case WebSocketAction.GAME_START:
+					case WebSocketAction.START_GAME:
 						console.log('🎮 Игра началась!')
 						// Можете установить соответствующий экран
 						// setCurrentScreen(ScreenType.GAME_SCREEN)
@@ -77,6 +87,12 @@ const Game: FC = () => {
 					case WebSocketAction.PLAYERS_LIST:
 						console.log('👥 Получен список игроков:', lastMessage.payload)
 						setPlayers(lastMessage.payload)
+						break
+
+					case WebSocketAction.SET_QUESTION:
+						console.log('❓ Получен вопрос:', lastMessage.payload)
+						setQuestionData(lastMessage.payload)
+						setCurrentScreen(ScreenType.QUESTION_SCREEN)
 						break
 
 					default:
@@ -103,6 +119,17 @@ const Game: FC = () => {
 			case ScreenType.GAME_LOBBY_WAIT_PLAYERS_SCREEN:
 				console.log('🎨 Рендерим GameLobby компонент')
 				return <GameLobby players={players} currentPlayerId={currentPlayerId} />
+
+			case ScreenType.QUESTION_SCREEN:
+				console.log('🎨Рендерим Question компонент')
+				if (questionData) {
+					return (
+						<Question
+							stageId={questionData.stageId}
+							question={questionData.question}
+						/>
+					)
+				}
 
 			default:
 				console.log('🔄 Рендерим экран по умолчанию (загрузка)')
