@@ -10,6 +10,7 @@ import { GameLobby } from '../GameLobby'
 import { JoinRoom } from '../JoinRoom'
 import { Question } from '../Question'
 import { QuestionWaitOther } from '../QuestionWaitOther'
+import { Vote } from '../Vote'
 import s from './Game.module.scss'
 
 interface QuestionPayload {
@@ -40,6 +41,11 @@ const Game: FC = () => {
 	} | null>(null)
 	const [currentScreen, setCurrentScreen] = useState<ScreenType | string>('')
 	const { connect, isConnected, messages } = useWebSocketStore()
+	const [voteData, setVoteData] = useState<{
+		stageId: string
+		question: string
+		answers: Array<{ playerId: string; answer: string }>
+	} | null>(null)
 
 	// Подключаемся к WebSocket
 	useEffect(() => {
@@ -96,6 +102,12 @@ const Game: FC = () => {
 						setCurrentScreen(ScreenType.QUESTION_SCREEN)
 						break
 
+					case WebSocketAction.VOTE_STAGE:
+						console.log('🗳️ Получена стадия голосования:', lastMessage.payload)
+						setVoteData(lastMessage.payload)
+						setCurrentScreen(ScreenType.VOTE_SCREEN)
+						break
+
 					default:
 						console.log('📨 Получено другое действие:', lastMessage.action)
 				}
@@ -135,6 +147,18 @@ const Game: FC = () => {
 			case ScreenType.QUESTION_WAIT_OTHER_SCREEN:
 				console.log('🎨Рендерим QuestionWaitOther компонент')
 				return <QuestionWaitOther />
+
+			case ScreenType.VOTE_SCREEN:
+				console.log('🎨Рендерим Vote компонент')
+				if (voteData) {
+					return (
+						<Vote
+							stageId={voteData.stageId}
+							question={voteData.question}
+							answers={voteData.answers}
+						/>
+					)
+				}
 
 			default:
 				console.log('🔄 Рендерим экран по умолчанию (загрузка)')

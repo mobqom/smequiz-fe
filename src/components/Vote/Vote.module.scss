@@ -1,0 +1,123 @@
+.pageVote {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	padding: 20px;
+}
+
+.container {
+	max-width: 800px;
+	width: 100%;
+	background: white;
+	border-radius: 20px;
+	padding: 40px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.question {
+	font-size: 28px;
+	color: #333;
+	margin-bottom: 40px;
+	text-align: center;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.answers {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 20px;
+	margin-bottom: 40px;
+}
+
+.answerButton {
+	background: #f7f9fc;
+	border: 2px solid #e0e6ed;
+	border-radius: 12px;
+	padding: 25px 20px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+
+	&:hover:not(:disabled) {
+		border-color: #667eea;
+		background: #f0f4ff;
+		transform: translateY(-2px);
+		box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+	}
+
+	&.selected {
+		border-color: #667eea;
+		background: #f0f4ff;
+		box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+
+		.answerText {
+			color: #667eea;
+			font-weight: 600;
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.answerText {
+	font-size: 24px;
+	color: #2d3748;
+	font-weight: 500;
+}
+
+.playerId {
+	font-size: 14px;
+	color: #718096;
+	background: rgba(0, 0, 0, 0.05);
+	padding: 4px 12px;
+	border-radius: 20px;
+}
+
+.submitButton {
+	width: 100%;
+	padding: 16px 24px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border: none;
+	border-radius: 12px;
+	font-size: 18px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+// Анимация для загрузки
+@keyframes pulse {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.submitButton:disabled {
+	animation: pulse 1.5s infinite;
+}
