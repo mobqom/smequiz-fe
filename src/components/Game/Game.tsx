@@ -9,6 +9,7 @@ import { FC, useEffect, useState } from 'react'
 import { GameLobby } from '../GameLobby'
 import { JoinRoom } from '../JoinRoom'
 import { Question } from '../Question'
+import { QuestionWaitOther } from '../QuestionWaitOther'
 import s from './Game.module.scss'
 
 interface QuestionPayload {
@@ -130,6 +131,10 @@ const Game: FC = () => {
 						/>
 					)
 				}
+
+			case ScreenType.QUESTION_WAIT_OTHER_SCREEN:
+				console.log('🎨Рендерим QuestionWaitOther компонент')
+				return <QuestionWaitOther />
 
 			default:
 				console.log('🔄 Рендерим экран по умолчанию (загрузка)')
